@@ -17,21 +17,31 @@ function viewerCesium3DTilesInspectorMixin(viewer) {
   //>>includeStart('debug', pragmas.debug);
   Check.typeOf.object("viewer", viewer);
   //>>includeEnd('debug');
+  const containerClassName = "cesium-viewer-cesium3DTilesInspectorContainer";
 
-  const container = document.createElement("div");
-  container.className = "cesium-viewer-cesium3DTilesInspectorContainer";
-  viewer.container.appendChild(container);
+  let containerElement = document.querySelector(`.${containerClassName}`);
+
+  if (!containerElement) {
+    const container = document.createElement("div");
+    container.className = containerClassName;
+    viewer.container.appendChild(container);
+  }
+
   const cesium3DTilesInspector = new Cesium3DTilesInspector(
     container,
     viewer.scene
   );
 
-  Object.defineProperties(viewer, {
-    cesium3DTilesInspector: {
-      get: function () {
-        return cesium3DTilesInspector;
+  if (!viewer.hasOwnProperty('cesium3DTilesInspector')){
+    Object.defineProperties(viewer, {
+      cesium3DTilesInspector: {
+        get: function () {
+          return cesium3DTilesInspector;
+        },
       },
-    },
-  });
+    });
+  }
+
+
 }
 export default viewerCesium3DTilesInspectorMixin;
