@@ -17,14 +17,18 @@ function viewerCesium3DTilesInspectorMixin(viewer) {
   //>>includeStart('debug', pragmas.debug);
   Check.typeOf.object("viewer", viewer);
   //>>includeEnd('debug');
+  let container;
   const containerClassName = "cesium-viewer-cesium3DTilesInspectorContainer";
+  const containerCollection = document.getElementsByClassName(
+    `${containerClassName}`
+  );
 
-  let containerElement = document.querySelector(`.${containerClassName}`);
-
-  if (!containerElement) {
-    const container = document.createElement("div");
+  if (containerCollection.length === 0) {
+    container = document.createElement("div");
     container.className = containerClassName;
     viewer.container.appendChild(container);
+  } else {
+    container = containerCollection[0];
   }
 
   const cesium3DTilesInspector = new Cesium3DTilesInspector(
@@ -32,7 +36,7 @@ function viewerCesium3DTilesInspectorMixin(viewer) {
     viewer.scene
   );
 
-  if (!viewer.hasOwnProperty('cesium3DTilesInspector')){
+  if (!viewer.hasOwnProperty("cesium3DTilesInspector")) {
     Object.defineProperties(viewer, {
       cesium3DTilesInspector: {
         get: function () {
@@ -41,7 +45,5 @@ function viewerCesium3DTilesInspectorMixin(viewer) {
       },
     });
   }
-
-
 }
 export default viewerCesium3DTilesInspectorMixin;
