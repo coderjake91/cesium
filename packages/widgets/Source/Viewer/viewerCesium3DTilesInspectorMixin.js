@@ -23,6 +23,7 @@ function viewerCesium3DTilesInspectorMixin(viewer) {
     `${containerClassName}`
   );
 
+  // If the Mixin container is already created, use the existing element...
   if (containerCollection.length === 0) {
     container = document.createElement("div");
     container.className = containerClassName;
@@ -36,14 +37,14 @@ function viewerCesium3DTilesInspectorMixin(viewer) {
     viewer.scene
   );
 
-  if (!viewer.hasOwnProperty("cesium3DTilesInspector")) {
-    Object.defineProperties(viewer, {
-      cesium3DTilesInspector: {
-        get: function () {
-          return cesium3DTilesInspector;
-        },
+  // Define or redefine the cesium3DTilesInspector property on the viewer object
+  Object.defineProperties(viewer, {
+    cesium3DTilesInspector: {
+      get: function () {
+        return cesium3DTilesInspector;
       },
-    });
-  }
+      configurable: true, // Allows the property to be redefined
+    },
+  });
 }
 export default viewerCesium3DTilesInspectorMixin;
